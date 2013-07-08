@@ -6,6 +6,8 @@
 #    Copyright (C) 2013 by Marco Guerrini                                   #
 #    marcomg@cryptolab.net                                                  #
 #                                                                           #
+#    Thanks to  Michael Andreas Buchberger for adding Conservative mode     #
+#                                                                           #
 #    This program is free software: you can redistribute it and/or modify   #
 #    it under the terms of the GNU General Public License as published by   #
 #    the Free Software Foundation, either version 3 of the License, or      #
@@ -41,7 +43,15 @@ def checkCurrentState():
     if governor == "powersave":
         CpuFreqIcon.setIcon(SaveIcon);
         CpuFreqIcon.setToolTip("CpuFreqTray: Current Governor: Powersave.");
+    if governor == "conservative":
+        CpuFreqIcon.setIcon(ConsIcon);
+        CpuFreqIcon.setToolTip("CpuFreqTray: Current Governor: Conservative.");
         
+# -- Set Conservative Governor: 
+def setCons():
+    setState = subprocess.Popen(['pkexec cpufreq-set -g conservative'],shell=True);
+    checkCurrentState();
+    
 # -- Set Performance governor:
 def setPerformance():
     setState = subprocess.Popen(['pkexec cpufreq-set -g performance'],shell=True);
@@ -57,6 +67,7 @@ def setDemand():
     setState = subprocess.Popen(['pkexec cpufreq-set -g ondemand'],shell=True);
     checkCurrentState();
     
+    
 # -- Main App Glue:    
 def main():
     #-- construct the core objects:
@@ -67,22 +78,26 @@ def main():
     Timer = QtCore.QTimer();
     
     # -- create the icons:
+    global ConsIcon;
     global PerfIcon;
     global DemandIcon;
     global SaveIcon;
     PerfIcon = QtGui.QIcon("performance.png");
     SaveIcon  = QtGui.QIcon("powersave.png");
     DemandIcon = QtGui.QIcon("ondemand.png");
+    ConsIcon = QtGui.QIcon("conservative.png");
     QuitIcon = QtGui.QIcon("quit.png");
     # -- Now Create the menu
     global ActionsMenu;
     ActionsMenu = QtGui.QMenu();
+    ConsAction = ActionsMenu.addAction(ConsIcon,"Set governor to Conservative");
     PerfAction = ActionsMenu.addAction(PerfIcon,"Set governor to Performance");
     SaveAction = ActionsMenu.addAction(SaveIcon,"Set governor to Powersave");
     DemandAction = ActionsMenu.addAction(DemandIcon,"Set governor to On Demand");
     ActionsMenu.addSeparator();
     QuitAction = ActionsMenu.addAction(QuitIcon,"Quit CpuFreqTray");
     # -- connect the actions:
+    CpuFreqApp.connect(ConsAction,QtCore.SIGNAL("triggered()"),setCons);
     CpuFreqApp.connect(PerfAction,QtCore.SIGNAL("triggered()"),setPerformance);
     CpuFreqApp.connect(DemandAction,QtCore.SIGNAL("triggered()"),setDemand);
     CpuFreqApp.connect(SaveAction,QtCore.SIGNAL("triggered()"),setSave);
