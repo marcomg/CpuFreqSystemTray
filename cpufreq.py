@@ -49,22 +49,22 @@ def checkCurrentState():
         
 # -- Set Conservative Governor: 
 def setCons():
-    setState = subprocess.Popen(['pkexec cpufreq-set -g conservative'],shell=True);
+    setState = subprocess.Popen(['pkexec cpufreq-set -r -g conservative'],shell=True);
     checkCurrentState();
     
 # -- Set Performance governor:
 def setPerformance():
-    setState = subprocess.Popen(['pkexec cpufreq-set -g performance'],shell=True);
+    setState = subprocess.Popen(['pkexec cpufreq-set -r -g performance'],shell=True);
     checkCurrentState();
     
 # -- Set Powersave Governor:
 def setSave():
-    setState = subprocess.Popen(['pkexec cpufreq-set -g powersave'],shell=True);
+    setState = subprocess.Popen(['pkexec cpufreq-set -r -g powersave'],shell=True);
     checkCurrentState();
     
 # -- Set OnDemand Governor: 
 def setDemand():
-    setState = subprocess.Popen(['pkexec cpufreq-set -g ondemand'],shell=True);
+    setState = subprocess.Popen(['pkexec cpufreq-set -r -g ondemand'],shell=True);
     checkCurrentState();
     
     
