@@ -6,7 +6,7 @@
 #    Copyright (C) 2013 by Marco Guerrini                                   #
 #    marcomg@cryptolab.net                                                  #
 #                                                                           #
-#    Thanks to  Michael Andreas Buchberger for adding Conservative mode     #
+#    Thanks to Michael Andreas Buchberger for adding Conservative mode      #
 #                                                                           #
 #    This program is free software: you can redistribute it and/or modify   #
 #    it under the terms of the GNU General Public License as published by   #
